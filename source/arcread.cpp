@@ -1308,12 +1308,16 @@ void Archive::ConvertAttributes()
 
   if (mask == (mode_t) -1)
   {
+#ifdef __PSP__
+    mask = S_IWGRP | S_IWOTH;
+#else
     // umask call returns the current umask value. Argument (022) is not
     // really important here.
     mask = umask(022);
 
     // Restore the original umask value, which was changed to 022 above.
     umask(mask);
+#endif
   }
 
   switch(FileHead.HSType)

@@ -192,7 +192,7 @@
 #define WRITEBINARY  "wb"
 #define APPENDTEXT   "a"
 
-#define _stdfunction 
+#define _stdfunction
 #define _forceinline inline
 
 #ifdef _APPLE
@@ -213,7 +213,11 @@
 #endif
 
 #if _POSIX_C_SOURCE >= 200809L
+#ifdef __PSP__
+extern "C" int utime(const char *path, const struct utimbuf *times);
+#else
   #define UNIX_TIME_NS // Nanosecond time precision in Unix.
+#endif
 #endif
 
 #endif // _UNIX

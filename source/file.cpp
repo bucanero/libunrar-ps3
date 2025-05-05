@@ -114,7 +114,7 @@ bool File::Open(const wchar *Name,uint Mode)
 
   int handle=0;
 #ifdef LOCK_EX
-
+#ifndef __PSP__
 #ifdef _OSF_SOURCE
   extern "C" int flock(int, int);
 #endif
@@ -124,6 +124,7 @@ bool File::Open(const wchar *Name,uint Mode)
     close(handle);
     return false;
   }
+#endif
 #endif
   if (handle==-1)
     hNewFile=FILE_BAD_HANDLE;

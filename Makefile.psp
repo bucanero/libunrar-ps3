@@ -1,0 +1,25 @@
+TARGET_LIB = psp-libunrar.a
+OBJS       = source/rar.o source/strlist.o source/strfn.o source/pathfn.o source/smallfn.o source/global.o source/file.o source/filefn.o source/filcreat.o \
+	source/archive.o source/arcread.o source/unicode.o source/system.o source/isnt.o source/crypt.o source/crc.o source/rawread.o source/encname.o \
+	source/resource.o source/match.o source/timefn.o source/rdwrfn.o source/consio.o source/options.o source/errhnd.o source/rarvm.o source/secpassword.o \
+	source/rijndael.o source/getbits.o source/sha1.o source/sha256.o source/blake2s.o source/hash.o source/extinfo.o source/extract.o source/volume.o \
+	source/list.o source/find.o source/unpack.o source/headers.o source/threadpool.o source/rs16.o source/cmddata.o source/ui.o \
+	source/filestr.o source/scantree.o source/dll.o source/qopen.o
+
+CFLAGS   = -Wl,-q -Wall -O3 -Wno-unused-variable -Wno-unused-but-set-variable -ffat-lto-objects -flto -DLITTLE_ENDIAN -DRARDLL -Iinclude
+CXXFLAGS = $(CFLAGS) -std=gnu++11 -fno-rtti
+
+INCDIR = include
+ASFLAGS = $(CFLAGS)
+
+LIBDIR =
+LDFLAGS =
+
+PSPSDK=$(shell psp-config --pspsdk-path)
+include $(PSPSDK)/lib/build.mak
+
+install: $(TARGET_LIB)
+	@echo Copying...
+	@cp -frv include/dll.hpp $(PSPDEV)/psp/include/unrar.h
+	@cp -frv $(TARGET_LIB) $(PSPDEV)/psp/lib/libunrar.a
+	@echo lib installed!
